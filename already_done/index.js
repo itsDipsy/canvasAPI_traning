@@ -3,37 +3,39 @@ const c = canvas.getContext("2d");
 
 canvas.height = 576
 canvas.width = 1024
-const gravity = 0.09;
+const gravity = 0.3;
 
 class Player {
-    constructor(postion){
+    constructor(postion) {
         this.postion = postion;
         this.velocity = {
-            x:0,
-            y:1,
+            x: 0,
+            y: 1,
         }
         this.height = 100;
     }
 
-    draw(){
+    draw() {
         c.fillStyle = "red";
         c.fillRect(this.postion.x, this.postion.y, 100, this.height);
     }
 
-    uppdate(){
+    uppdate() {
         this.postion.y += this.velocity.y;
         this.postion.x += this.velocity.x;
-        if(this.postion.y + this.height + this.velocity.y < canvas.height){
+        if (this.postion.y + this.height + this.velocity.y < canvas.height) {
             this.velocity.y += gravity;
         }
-        else{
+        else {
             this.velocity.y = 0
         }
     }
 }
 
 
-const player = new Player({x:0, y:0});
+const player = new Player({ x: 0, y: 0 });
+const player2 = new Player({ x: 200, y: 100 });
+
 
 const keys = {
     d: {
@@ -45,52 +47,54 @@ const keys = {
 }
 
 
-function animate(){
+function animate() {
     window.requestAnimationFrame(animate)
     console.log("animate")
 
     c.fillStyle = "gray";
-    c.fillRect(0,0, canvas.width, canvas.height);
+    c.fillRect(0, 0, canvas.width, canvas.height);
     player.draw();
     player.uppdate();
+    player2.draw();
+    player2.uppdate();
 
     player.velocity.x = 0;
-    if(keys.d.pressed){
-        player.velocity.x = 2;
-        
-    } 
-    else if(keys.a.pressed){
-        player.velocity.x = -2
+    if (keys.d.pressed) {
+        player.velocity.x = 4;
+
+    }
+    else if (keys.a.pressed) {
+        player.velocity.x = -4;
     }
 }
 animate();
 
 window.addEventListener("keydown", (event) => {
-    switch(event.key){
+    switch (event.key) {
         case "d":
             keys.d.pressed = true;
-            
-        break;
+
+            break;
         case "a":
             keys.a.pressed = true;
-        break;
+            break;
         case " ":
             player.velocity.y = -8;
-        break;
+            break;
 
     }
 })
 
 
 window.addEventListener("keyup", (event) => {
-    switch(event.key){
+    switch (event.key) {
         case "d":
             keys.d.pressed = false;
-            
-        break;
+
+            break;
         case "a":
             keys.a.pressed = false;
-        break;
+            break;
     }
 })
 
